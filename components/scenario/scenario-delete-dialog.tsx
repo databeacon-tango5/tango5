@@ -2,7 +2,7 @@
 
 import { PropsWithoutRef, startTransition, useActionState, useEffect, useState } from 'react';
 import { Button } from '~/components/ui/button';
-import revalidateCacheTag, { deleteScenario } from '~/lib/actions/scenario';
+import { deleteScenario } from '~/lib/actions/scenario';
 import {
     Dialog,
     DialogContent,
@@ -16,6 +16,7 @@ import { DialogClose } from '@radix-ui/react-dialog';
 import { Trash2Icon } from 'lucide-react';
 import { cacheTags } from '~/lib/constants';
 import { toast } from 'sonner';
+import revalidateCacheTag from '~/lib/actions';
 
 export const ScenarioDeleteDialog = (props: PropsWithoutRef<{ id: number }>) => {
     const [open, setOpen] = useState(false);

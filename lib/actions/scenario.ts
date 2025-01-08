@@ -3,9 +3,7 @@
 import { writeScenario } from '~/lib/db/queries';
 import { scenarioSchema } from '~/lib/domain/scenario';
 import { deleteScenario as deleteDBScenario } from '~/lib/db/queries';
-import { revalidateTag } from 'next/cache';
-
-type ActionState = { message: string; error: boolean };
+import { ActionState } from '.';
 
 export async function createScenario(
     _prevState: ActionState,
@@ -42,8 +40,4 @@ export async function deleteScenario(_prevState: ActionState, id: number): Promi
     }
 
     return { message: `Scenario #${id} deleted`, error: false };
-}
-
-export default async function revalidateCacheTag(tag: string) {
-    revalidateTag(tag);
 }

@@ -3,7 +3,7 @@
 import { startTransition, useActionState, useEffect, useState } from 'react';
 import { Button } from '~/components/ui/button';
 import { Input } from '~/components/ui/input';
-import revalidateCacheTag, { createScenario } from '~/lib/actions/scenario';
+import { createScenario } from '~/lib/actions/scenario';
 import { toast } from 'sonner';
 import {
     Dialog,
@@ -17,6 +17,7 @@ import {
 } from '~/components/ui/dialog';
 import { FilePlus2 } from 'lucide-react';
 import { cacheTags } from '~/lib/constants';
+import revalidateCacheTag from '~/lib/actions';
 
 export function ScenarioUploadDialog() {
     const [open, setOpen] = useState(false);
