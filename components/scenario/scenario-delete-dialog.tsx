@@ -2,7 +2,7 @@
 
 import { PropsWithoutRef, startTransition, useActionState, useEffect, useState } from 'react';
 import { Button } from '~/components/ui/button';
-import revalidateCacheTag, { deleteScenario } from '~/lib/actions';
+import revalidateCacheTag, { deleteScenario } from '~/lib/actions/scenario';
 import {
     Dialog,
     DialogContent,
