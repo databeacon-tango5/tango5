@@ -9,6 +9,7 @@ import { Scenario } from '~/lib/domain/scenario';
 import { MapEvent, MapMouseEvent } from 'mapbox-gl';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { point, rhumbDestination, Units } from '@turf/turf';
 
 type ScenarioMapProps = {
     style?: CSSProperties;
@@ -57,6 +58,7 @@ const ScenarioMap = (props: PropsWithChildren<ScenarioMapProps>) => {
 
     return (
         <MapProvider>
+            <ScaleMap latitude={props.scenario.boundaries[3]} />
             <MapGL
                 id="map"
                 mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
@@ -82,6 +84,43 @@ const ScenarioMap = (props: PropsWithChildren<ScenarioMapProps>) => {
                 />
             </MapGL>
         </MapProvider>
+    );
+};
+
+const ScaleMap = (props: PropsWithoutRef<{ latitude: number }>) => {
+    const { map: mapRef } = useMap();
+    const [width, setWidth] = useState(0);
+
+    useEffect(() => {
+        const map = mapRef?.getMap();
+        if (!map) return;
+
+        const coords1 = [0, props.latitude] as [number, number];
+        const point1 = point(coords1);
+        const distance = 5;
+        const bearing = 90;
+        const options: {
+            units?: Units;
+        } = { units: 'nauticalmiles' };
+
+        const point2 = rhumbDestination(point1, distance, bearing, options);
+
+        const proj1 = map.project(coords1);
+        const proj2 = map.project([point2.geometry.coordinates[0], point2.geometry.coordinates[1]]);
+
+        const distanceInPixels = Math.round(Math.abs(proj1.x - proj2.x));
+
+        setWidth(distanceInPixels);
+    }, [props.latitude, mapRef]);
+
+    if (!mapRef) return;
+
+    return (
+        <div className={`fixed bottom-8 left-8 z-30`} style={{ width: `${width}px` }}>
+            <div className="text-center">5NM</div>
+            <div className="h-[5px] w-full border-b-[1px] border-l-[1px] border-r-[1px] border-primary"></div>
+            <div className="h-1 w-full border-l-[1px] border-r-[1px] border-primary"></div>
+        </div>
     );
 };
 
