@@ -19,7 +19,7 @@ export default async function Page() {
         <main className="flex min-h-screen flex-col items-center justify-center gap-6 p-6 md:p-10">
             <h1 className="text-3xl">{'You have completed all available scenarios'}</h1>
             <h3 className="text-xl">{'Return later to access new scenarios'}</h3>
-            <UserGamesTable usergames={userGames} />
+            <UserGamesTable usergames={userGames} admin={false} />
             <Button variant="outline">
                 {unplayedScenarios.length === 0 ? (
                     <Link href="/play/random">Play random</Link>

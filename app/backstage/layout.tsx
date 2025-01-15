@@ -11,7 +11,7 @@ import {
 import { PropsWithChildren } from 'react';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader } from '~/components/ui/sidebar';
 import { SignedIn, UserButton } from '@clerk/nextjs';
-import { Database, Dices, ThumbsUp, Users } from 'lucide-react';
+import { Database, Dices, ThumbsUp, Users, Gamepad2 } from 'lucide-react';
 import Link from 'next/link';
 import { ThemeSetting } from '../../components/theme/theme-setting';
 
@@ -61,6 +61,14 @@ export default function DashBoardLayout({ children }: PropsWithChildren) {
                                         <Link href={'/backstage/users'}>
                                             <Users />
                                             <span>{'Users'}</span>
+                                        </Link>
+                                    </SidebarMenuButton>
+                                </SidebarMenuItem>
+                                <SidebarMenuItem>
+                                    <SidebarMenuButton asChild tooltip={'games'}>
+                                        <Link href={'/backstage/games'}>
+                                            <Gamepad2 />
+                                            <span>{'Games'}</span>
                                         </Link>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
