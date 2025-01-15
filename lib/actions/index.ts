@@ -2,9 +2,14 @@
 
 import { Duration } from 'luxon';
 import { currentUser } from '@clerk/nextjs/server';
-import { writeScenario, writeUserGame } from '~/lib/db/queries';
+import {
+    deleteUserGames,
+    writeScenario,
+    writeUserGame,
+    getUserGames,
+    deleteScenario as deleteDBScenario
+} from '~/lib/db/queries';
 import { scenarioSchema } from '~/lib/domain/scenario';
-import { getUserGames, deleteScenario as deleteDBScenario } from '~/lib/db/queries';
 import { revalidateTag } from 'next/cache';
 import { UserGameInsert } from '~/lib/db/schema';
 
@@ -72,4 +77,14 @@ export async function completeUserGame(scenarioId: number, playTimeMs: number, s
     };
 
     await writeUserGame(userGame);
+}
+
+export async function resetUserProgress(_prevState: ActionState, userId: string): Promise<ActionState> {
+    try {
+        await deleteUserGames(userId);
+    } catch {
+        return { message: `Error deleting games for user #${userId}`, error: true };
+    }
+
+    return { message: `Games for user #${userId} deleted`, error: false };
 }
